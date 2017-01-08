@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/flux-bulb-config/vendor/ladda/ladda-themeless.min.css"/>
+
+<!--language=HTML-->
+<script type="text/x-red" data-template-name="flux-bulb-config">
+  <div class="form-row">
+    <label for="node-config-input-bulb"><i class="fa fa-lightbulb-o"></i> Bulb </label>
+    <select id="node-config-input-bulb" style="width: 200px">
+      <option value="">Choose bulb...</option>
+    </select> <a class="editor-button"
+    data-spinner-color="#888"
+    data-style="zoom-in"
+    id="refresh-bulbs"
+    title="Refresh list of bulbs"><i class="fa fa-refresh"></i></a> <a class="editor-button"
+    data-spinner-color="#888"
+    data-style="slide-right"
+    id="identify-bulb"
+    title="Flash selected bulb for identification">Identify</a>
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label> <input type="text"
+    id="node-config-input-name"
+    placeholder="Name">
+  </div>
+</script>
+
+<!--language=HTML-->
+<script type="text/x-red" data-help-name="flux-bulb-config">
+  <p>Description</p>
+
+</script>
+
+<script src="/flux-bulb-config/editor/flux-bulb-config.editor.js"></script>
+<script src="/flux-bulb-config/vendor/ladda/spin.min.js"></script>
+<script src="/flux-bulb-config/vendor/ladda/ladda.min.js"></script>
+<script src="/flux-bulb-config/vendor/ladda/ladda.jquery.min.js"></script>
+

@@ -4,14 +4,16 @@
   "description": "",
   "author": "",
   "dependencies": {
-    "deadlights": "^0.1.0"
+    "deadlights": "^0.2.1",
+    "ladda": "^1.0.0"
   },
   "keywords": [
     "node-red"
   ],
   "node-red": {
     "nodes": {
-      "fluxwifi": "fluxwifi.js"
+      "flux-bulb-config": "nodes/flux-bulb-config.js",
+      "flux-bulb": "nodes/flux-bulb.js"
     }
   },
   "devDependencies": {
