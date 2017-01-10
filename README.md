@@ -4,4 +4,4 @@
 
 ## License
 
-:copyright: 2016 [Christopher Hiller](https://github.com/boneskull).  Licensed MIT.
+:copyright: 2017 [Christopher Hiller](https://github.com/boneskull).  Licensed MIT.
