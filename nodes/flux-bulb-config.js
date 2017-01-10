@@ -21,16 +21,17 @@ module.exports = function (RED) {
     // RED.comms.publish('flux-bulb-config:bulb-deleted', bulb);
   }
 
+  function discover () {
+    RED.log.debug(`${nodeName}: discovering bulbs`);
+    return fluxNet.discover()
+      .tap(bulbs => {
+        RED.log.debug(`${nodeName}: discovered ${bulbs.length} bulbs`);
+      })
+      .map(bulb => bulb.refresh());
+  }
+
   function beginPolling () {
     RED.log.debug(`${nodeName}: begin polling`);
-    function discover () {
-      RED.log.debug(`${nodeName}: discovering bulbs`);
-      fluxNet.discover()
-        .tap(bulbs => {
-          RED.log.debug(`${nodeName}: discovered ${bulbs.length} bulbs`);
-        })
-        .map(bulb => bulb.refresh());
-    }
 
     discover();
     poll = setInterval(() => discover, 60000);
@@ -39,7 +40,6 @@ module.exports = function (RED) {
   function endPolling () {
     RED.log.debug(`${nodeName}: end polling`);
     clearInterval(poll);
-    return fluxNet.close();
   }
 
   const fluxNet = new deadlights.Network({keepOpen: true})
@@ -70,6 +70,22 @@ module.exports = function (RED) {
     })
     .get('/flux-bulb-config/bulbs', (req, res) => {
       RED.log.debug(`sending ${Object.keys(bulbs).length} bulbs to editor`);
+      if (req.query.force) {
+        RED.log.debug(`force discover`);
+        endPolling();
+        return discover()
+          .then(bulbs => {
+            res.send(bulbs);
+          })
+          .catch(err => {
+            RED.log.error(err);
+            res.status(500)
+              .send(err);
+          })
+          .finally(() => {
+            beginPolling();
+          });
+      }
       res.send(bulbs);
     })
     .put('/flux-bulb-config/bulb/:id/identify', (req, res) => {
@@ -82,7 +98,8 @@ module.exports = function (RED) {
           })
           .catch(err => {
             RED.log.error(err);
-            res.status(500).send(err);
+            res.status(500)
+              .send(err);
           });
       } else {
         res.sendStatus(404);
